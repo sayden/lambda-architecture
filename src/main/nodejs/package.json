@@ -1,0 +1,8 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "dependencies": {
+    "meetup": "0.1.0-SNAPSHOT",
+    "kafka-node": "~0.2.28"
+  }
+}
