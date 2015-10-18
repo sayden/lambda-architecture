@@ -11,6 +11,7 @@ producer.on('ready', () => {
     console.log("stream opened");
 
     stream.on("data", item => {
+        console.log(item);
         //Pipe it to Kafka
         producer.send([{
           topic:'meetup',
