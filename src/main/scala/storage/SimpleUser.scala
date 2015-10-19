@@ -6,6 +6,7 @@ import com.datastax.driver.core.{ResultSet, Row}
 import com.twitter.conversions.time._
 import com.websudos.phantom.dsl._
 import com.websudos.phantom.iteratee.Iteratee
+import storage.models.User
 
 import scala.concurrent.Future
 

@@ -1,4 +1,4 @@
-package storage
+package storage.models
 
 import java.util.UUID
 

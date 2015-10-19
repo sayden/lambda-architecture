@@ -6,12 +6,16 @@ let Producer = kafka.Producer;
 let kafkaClient = new kafka.Client();
 let producer = new Producer(kafkaClient);
 
+let one = true;
 producer.on('ready', () => {
   mup.stream("/2/rsvps", stream => {
     console.log("stream opened");
 
     stream.on("data", item => {
-        console.log(item);
+        if(one){
+            console.log(JSON.stringify(item));
+            one=false;
+        }
         //Pipe it to Kafka
         producer.send([{
           topic:'meetup',

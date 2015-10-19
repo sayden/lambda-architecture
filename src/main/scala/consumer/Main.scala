@@ -2,7 +2,8 @@ package consumer
 
 import java.util.UUID
 
-import storage.{CassandraJavaStorage, SimpleUser, User}
+import storage.models.User
+import storage.{CassandraJavaStorage, SimpleUser}
 
 import scala.concurrent.Future
 import concurrent.ExecutionContext.Implicits.global
