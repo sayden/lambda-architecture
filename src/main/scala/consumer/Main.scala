@@ -3,15 +3,21 @@ package consumer
 import java.util.UUID
 
 import storage.models.User
-import storage.{CassandraJavaStorage, SimpleUser}
+import storage.{CassandraJavaStorage, CassandraJavaScalaStorage, SimpleUser}
 
 import scala.concurrent.Future
 import concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 object Main {
-  def main(args: Array[String]) {
-    tryInheritance()
+  def main(args: Array[String]): Unit = {
+    tryPhantom()
+  }
+
+  def tryCassandraJavaScalaStorage(): Unit ={
+    val javaScalaCassandra: CassandraJavaScalaStorage = new CassandraJavaScalaStorage()
+    javaScalaCassandra.run()
+
   }
 
   def tryInheritance(): Unit = {

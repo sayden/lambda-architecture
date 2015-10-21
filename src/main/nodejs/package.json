@@ -4,5 +4,8 @@
   "dependencies": {
     "meetup": "0.1.0-SNAPSHOT",
     "kafka-node": "~0.2.28"
-  }
+  },
+    "scripts":{
+        "start":"babel-node socketWiki.js"
+    }
 }

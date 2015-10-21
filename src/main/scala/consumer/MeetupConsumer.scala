@@ -3,6 +3,7 @@ package consumer
 import java.util.Properties
 
 import kafka.consumer._
+import storage.MeetupParser
 
 import scala.collection.Map
 
@@ -45,6 +46,8 @@ class MeetupConsumer(zookeeper: String, groupId: String, topic: String) {
           val msg = consumerIter.next()
           val msgString = new String(msg.message())
           println("Message from Single Topic :: " + msgString)
+          var meetupParser: MeetupParser = new MeetupParser()
+
         }
       }
     }

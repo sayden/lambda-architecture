@@ -1,0 +1,21 @@
+{
+    "venue":{
+        "venue_name":"My Heart Reiki ",
+        "lat":32.963917
+    },
+    "visibility":"public",
+    "guests":0,
+    "group":{
+        "group_topics":[
+            {
+                "urlkey":"alternative-health-mind-body-connection",
+                "topic_name":"Alternative Health • Mind Body Connection"
+            },
+            {
+                "urlkey":"reiki",
+                "topic_name":"Reiki"
+            }
+        ],
+        "group_lat":32.96
+    }
+}

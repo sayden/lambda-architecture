@@ -3,7 +3,6 @@ package consumer
 import net.liftweb.json.Extraction._
 import net.liftweb.json._
 
-
 class JsonParserTest {
 
   implicit val formats = net.liftweb.json.DefaultFormats
@@ -44,3 +43,4 @@ class JsonParserTest {
     println(localTest.toString)
   }
 }
+

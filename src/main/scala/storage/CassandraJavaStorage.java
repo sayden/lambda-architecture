@@ -5,9 +5,6 @@ import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.Session;
 
-/**
- * Created by mariocaster on 10/17/15.
- */
 public class CassandraJavaStorage {
     private Cluster cluster;
     private Session session;
@@ -28,6 +25,6 @@ public class CassandraJavaStorage {
     }
 
     public void loadData(){
-        session.execute("INSERT INTO users (user_id, fname, lname) VALUES (1233, 'Mario', 'Caster')");
+        session.execute("INSERT INTO usersks.users (user_id, fname, lname) VALUES (c37d661d-7e61-49ea-96a5-68c34e83db3a, 'Mario', 'Caster')");
     }
 }
