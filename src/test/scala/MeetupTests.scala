@@ -6,8 +6,8 @@ class MeetupTests extends FlatSpec with Matchers {
   implicit val formats = net.liftweb.json.DefaultFormats
 
   "A meetup " should " be created from a JSON" in {
-    val json = parse(
-      """{
+
+    val json = parse("""{
     "venue":{
         "venue_name":"My Heart Reiki ",
         "lon":-96.738754,
@@ -97,11 +97,19 @@ class MeetupTests extends FlatSpec with Matchers {
         "group_state":"TX",
         "group_lat":32.96
     }
-}""")
+}""".stripMargin)
+
     println(json)
     val meetup = json.extract[Meetup]
 
     meetup.visibility should be ("public")
-//    meetup.group.group_topics.size should be (14)
+    meetup.group.group_topics.size should be (2)
+  }
+
+  "A JsonTest " should "create a table" in {
+    var jsonTable: JsonTable = new JsonTable
+    jsonTable.create(new JsonClass())
+
+
   }
 }

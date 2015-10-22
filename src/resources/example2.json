@@ -5,6 +5,7 @@
     },
     "visibility":"public",
     "guests":0,
+    "rsvp_id":123123,
     "group":{
         "group_topics":[
             {

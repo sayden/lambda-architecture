@@ -3,6 +3,7 @@ package storage.models
 import com.websudos.phantom.dsl._
 import com.websudos.phantom.iteratee.Iteratee
 import storage.ExampleConnector
+import net.liftweb.json._
 
 import scala.concurrent.Future
 
@@ -22,13 +23,15 @@ case class Venue(venue_name:String, lon:Long, lat:Long, venue_id:Long)
 case class Member(member_id:Long, member_name:String)
 case class Event(event_name:String, event_id:String, time:String,
                  event_url:String)
-case class GroupTopic(url_key:String, topic_name:String)
-case class Group(group_topics: List[GroupTopic], group_city:String,
+case class GroupTopic(url_key: String, event_url:String)
+case class Group(group_city:String,
                  group_country:String, group_id:Long, group_name:String,
                  group_lon:Long, group_urlname:String, group_state:String,
-                 group_lat:Long)
+                 group_lat:Long, group_topics: List[String])
 
 sealed class Meetups extends CassandraTable[Meetups, Meetup]{
+  implicit val formats = DefaultFormats
+
 //  object rsvp_id extends UUIDColumn(this) with PartitionKey[UUID]{}
   object rsvp_id extends StringColumn(this) {}
 
@@ -47,7 +50,15 @@ sealed class Meetups extends CassandraTable[Meetups, Meetup]{
   object event_id extends StringColumn(this)
   object event_time extends StringColumn(this)
   object event_url extends StringColumn(this)
-  object group_topics extends StringColumn(this)
+  object group_topics extends JsonListColumn[Meetups, Meetup, GroupTopic](this) {
+    override def fromJson(obj: String): GroupTopic ={
+      JsonParser.parse(obj).extract[GroupTopic]
+    }
+
+    override def toJson(groupTopic: GroupTopic): String = {
+      compactRender(Extraction.decompose(groupTopic))
+    }
+  }
   object group_city extends StringColumn(this)
   object group_country extends StringColumn(this)
   object group_id extends LongColumn(this)
@@ -67,9 +78,9 @@ sealed class Meetups extends CassandraTable[Meetups, Meetup]{
       new Venue(venue_name(row), venue_lon(row), venue_lat(row), venue_id(row)),
       new Member(member_id(row), member_name(row)),
       new Event(event_name(row), event_id(row), event_time(row), event_url(row)),
-      new Group(new GroupT(row), group_city(row), group_country(row),
+      new Group(group_city(row), group_country(row),
         group_id(row), group_name(row), group_lon(row), group_urlname(row),
-        group_state(row), group_lat(row))
+        group_state(row), group_lat(row), List[new GroupTopic(url_key(row), event_url(row)])
     )
   }
 }
