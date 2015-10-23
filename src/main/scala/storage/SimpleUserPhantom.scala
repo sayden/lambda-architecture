@@ -10,7 +10,7 @@ import storage.models.User
 
 import scala.concurrent.Future
 
-class SimpleUser {
+class SimpleUserPhantom {
   // You can seal the class and only allow importing the companion object.
   // The companion object is where you would implement your custom methods.
   sealed class Users extends CassandraTable[Users, User] {

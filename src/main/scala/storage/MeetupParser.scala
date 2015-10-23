@@ -9,6 +9,5 @@ class MeetupParser {
   def parseJson(stringifiedJson: String): Unit ={
     val json = parse(stringifiedJson)
     val extraction = json.extract[Meetup]
-    extraction
   }
 }

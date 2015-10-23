@@ -3,7 +3,7 @@ package consumer
 import java.util.UUID
 
 import storage.models.User
-import storage.{CassandraJavaStorage, CassandraJavaScalaStorage, SimpleUser}
+import storage.{CassandraJavaStorage, CassandraJavaScalaStorage, SimpleUserPhantom}
 
 import scala.concurrent.Future
 import concurrent.ExecutionContext.Implicits.global
@@ -71,7 +71,7 @@ object Main {
    * Phantom, one of the Scala drivers to access Cassandra
    */
   def tryPhantom(): Unit = {
-    val simpleUser: SimpleUser = new SimpleUser
+    val simpleUser: SimpleUserPhantom = new SimpleUserPhantom
     simpleUser.Users.insertNewRecord(new User(UUID.randomUUID(), "Mario", "Caster"))
 
     val userPromise: Future[Seq[User]] = simpleUser.Users.getEntireTable
