@@ -1,17 +1,48 @@
 package consumer
 
+import java.util
 import java.util.UUID
+import javax.persistence.{EntityManager, EntityManagerFactory, Persistence}
 
-import storage.models.User
-import storage.{CassandraJavaStorage, CassandraJavaScalaStorage, SimpleUserPhantom}
-
-import scala.concurrent.Future
-import concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
+import com.impetus.client.cassandra.common.CassandraConstants
+import storage.kundera.{MeetupKundera, UserKundera}
+import storage.{CassandraJavaScalaStorage, CassandraJavaStorage}
 
 object Main {
   def main(args: Array[String]): Unit = {
-    tryPhantom()
+    tryKundera()
+  }
+
+  def tryKundera(): Unit ={
+    val puProperties: util.HashMap[String, Object] = new util.HashMap[String, Object]()
+    puProperties.put(CassandraConstants.CQL_VERSION, CassandraConstants.CQL_VERSION_3_0)
+    val emf: EntityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu", puProperties)
+    val em: EntityManager = emf.createEntityManager()
+
+    //User
+    val user: UserKundera = new UserKundera
+    user.setName("Mario")
+    user.setSurname("Caster")
+    user.setAge(30)
+    user.setId(UUID.randomUUID())
+    em.persist(user)
+
+    //Meetup
+    val meetup: MeetupKundera = new MeetupKundera
+    meetup.setId(UUID.randomUUID().toString)
+    meetup.setGuest(3)
+    meetup.setVisibility("visible")
+
+    //Venue
+    meetup.setVenueId(UUID.randomUUID().toString)
+    meetup.setVenueLat("32.963917")
+    meetup.setVenueLon("-96.738754")
+    meetup.setVenueName("My Heart Reiki")
+
+    em.persist(meetup)
+
+    em.close
+    emf.close
   }
 
   def tryCassandraJavaScalaStorage(): Unit ={
@@ -64,25 +95,5 @@ object Main {
     cassandra.connect("localhost")
     cassandra.loadData
     cassandra.close
-  }
-
-
-  /**
-   * Phantom, one of the Scala drivers to access Cassandra
-   */
-  def tryPhantom(): Unit = {
-    val simpleUser: SimpleUserPhantom = new SimpleUserPhantom
-    simpleUser.Users.insertNewRecord(new User(UUID.randomUUID(), "Mario", "Caster"))
-
-    val userPromise: Future[Seq[User]] = simpleUser.Users.getEntireTable
-    userPromise onComplete{
-      case Success(users) => {
-        users.foreach((user: User) => {
-          printf("Name: %s, Surname: %s, (id:%s)\n", user.fname, user.lname, user.user_id)
-        })
-        println("Finished")
-      }
-      case Failure(ex) => println("Error", ex)
-    }
   }
 }

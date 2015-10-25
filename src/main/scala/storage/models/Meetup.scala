@@ -3,10 +3,10 @@ package storage.models
 import net.liftweb.json.JsonParser
 
 class Meetup(
+              rsvp_id:String,
               visibility:String,
               response:String,
               guests:Int,
-              rsvp_id:String,
               mtime:Long,
               venue:Venue,
               member:Member,
@@ -17,7 +17,36 @@ class Meetup(
   implicit val formats = net.liftweb.json.DefaultFormats
   override var columnFamily: String = "meetup"
 
-  override def toJsonString(columnFamily: CassandraColumnFamily): String = {
+  override def createTable: String = {
+    s"CREATE TABLE IF NOT EXISTS $columnFamily (" +
+      s"rsvp_id int," +
+      s"visibility varchar," +
+      s"response varchar," +
+      s"guests int," +
+      s"mtime int," +
+      s"venue_name varchar," +
+      s"venue_lon double," +
+      s"venue_lat double," +
+      s"venue_venue_id int," +
+      s"member_id int," +
+      s"member_name varchar," +
+      s"event_name varchar," +
+      s"event_time varchar," +
+      s"event_id int," +
+      s"event_url varchar," +
+      s"group_topics list," +
+      s"group_city varchar," +
+      s"group_country varchar," +
+      s"group_id int," +
+      s"group_name varchar," +
+      s"group_lon double," +
+      s"group_lat double," +
+      s"group_urlname varchar," +
+      s"group_state varchar," +
+      s"PRIMARY KEY (event_name)"
+  }
+
+  override def toJsonString(): String = {
     "Mario"
   }
 
@@ -25,26 +54,17 @@ class Meetup(
     JsonParser.parse(json).extract[Meetup]
   }
 
-  override def toInsertQuery(m: CassandraColumnFamily): String = {
-    val groupTopics: String = groupTopicsToString(this.group.group_topics)
-
-    val meetup = m match {
-      case m: Meetup => m
-      case _ =>   throw new ClassCastException
-    }
-
-    val query: String = s"INSERT INTO cf (rsvp_id, venue_name, venue_lon, venue_lat," +
+  override def toInsertQuery(): String = {
+    s"INSERT INTO $columnFamily (rsvp_id, venue_name, venue_lon, venue_lat," +
       s"venue_id, visibility, response, guests, member_id, member_name, mtime," +
       s"event_name, event_time, event_id, event_url, group_topics, group_city, " +
       s"group_country, group_id, group_name, group_lon, group_lat, group_urlname," +
       s"group_state) VALUES ($rsvp_id, ${venue.name}, ${venue.lon}, ${venue.lat}," +
       s"${venue.venue_id},$visibility, $response, $guests, ${member.member_id}," +
       s"${member.member_name}, $mtime, ${event.event_name},${event.time}," +
-      s"${event.event_id}, ${event.event_url},${groupTopics}, ${group.group_city}," +
+      s"${event.event_id}, ${event.event_url},${group.group_topics}, ${group.group_city}," +
       s"${group.group_country},${group.group_id}, ${group.group_name}, ${group.group_lon}," +
       s"${group.group_lat}, ${group.group_urlname}, ${group.group_state})"
-
-    query
   }
 
   def groupTopicsToString(groupTopics: List[GroupTopic]): String = {
@@ -67,7 +87,15 @@ case class GroupTopic(url_key: String, event_url:String){
   }
 }
 
+case class GroupTopicList(groupTopicList: List[GroupTopic]){
+  override def toString(): String = {
+    "[" + groupTopicList.map {topic: GroupTopic =>
+      topic.toString
+    }.reduceLeft(_ + ", " + _) + "]"
+  }
+}
+
 case class Group(group_city:String, group_country:String, group_id:Long,
                  group_name:String, group_lon:Long, group_urlname:String,
-                 group_state:String,group_lat:Long, group_topics: List[GroupTopic])
+                 group_state:String,group_lat:Long, group_topics: GroupTopicList)
 

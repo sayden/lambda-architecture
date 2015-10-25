@@ -31,4 +31,8 @@ class CassandraJavaScalaStorage {
   def loadData {
     session.execute("INSERT INTO usersks.users (user_id, fname, lname) VALUES (c37d661d-7e61-49ea-96a5-68c34e83db3a, 'Mario', 'Castro')")
   }
+
+  def insertData(query: String): Unit = {
+    session.execute(query)
+  }
 }

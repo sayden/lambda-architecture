@@ -17,6 +17,7 @@
                 "topic_name":"Reiki"
             }
         ],
-        "group_lat":32.96
+        "group_lat":32.96,
+        "group_name":"some name"
     }
 }

@@ -1,24 +1,19 @@
-import org.scalatest.{FlatSpec, Matchers}
-import storage.models._
+import org.scalatest.{FunSpec, Matchers}
 
-class MeetupTest extends FlatSpec with Matchers {
+class MeetupTest extends FunSpec with Matchers {
   implicit val formats = net.liftweb.json.DefaultFormats
 
-  "A GroupTopic" should "be converted into String" in {
+  describe("A Meetup "){
+    it("should be converted into string") {
 
-    val gp1: GroupTopic = new GroupTopic("name1", "key1")
-    val gp2: GroupTopic = new GroupTopic("name2", "key2")
-    val gp3: GroupTopic = new GroupTopic("name3", "key3")
+    }
 
-    val gTopics: List[GroupTopic] = List(gp1, gp2, gp3)
+    it("should be inserted into cassandra") {
 
-    val meetup:Meetup = new Meetup("", "", 0, "", 0, new Venue("", 0, 0, 0),
-      new Member(0, ""), new Event("", "", "", ""), new Group("", "", 0, "", 0,
-        "", "", 0, gTopics))
-    var res = meetup.groupTopicsToString(gTopics)
+    }
 
-    res = meetup.toInsertQuery(meetup)
+    it("A Cassandra resultset should be converted into as many meetup object as needed") {
 
-    println(res)
+    }
   }
 }
