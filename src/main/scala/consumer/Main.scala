@@ -1,11 +1,12 @@
 package consumer
 
+import java.sql.Timestamp
 import java.util
 import java.util.UUID
 import javax.persistence.{EntityManager, EntityManagerFactory, Persistence}
 
 import com.impetus.client.cassandra.common.CassandraConstants
-import storage.kundera.{MeetupKundera, UserKundera}
+import storage.kundera.{GroupTopic, MeetupKundera}
 import storage.{CassandraJavaScalaStorage, CassandraJavaStorage}
 
 object Main {
@@ -19,25 +20,46 @@ object Main {
     val emf: EntityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu", puProperties)
     val em: EntityManager = emf.createEntityManager()
 
-    //User
-    val user: UserKundera = new UserKundera
-    user.setName("Mario")
-    user.setSurname("Caster")
-    user.setAge(30)
-    user.setId(UUID.randomUUID())
-    em.persist(user)
-
     //Meetup
     val meetup: MeetupKundera = new MeetupKundera
-    meetup.setId(UUID.randomUUID().toString)
-    meetup.setGuest(3)
-    meetup.setVisibility("visible")
+    meetup.rsvp_id = UUID.randomUUID().toString
+    meetup.guests = 3
+    meetup.visibility = "visible"
+    meetup.response = "yes"
+    meetup.mtime = 1445203710232l
 
     //Venue
-    meetup.setVenueId(UUID.randomUUID().toString)
-    meetup.setVenueLat("32.963917")
-    meetup.setVenueLon("-96.738754")
-    meetup.setVenueName("My Heart Reiki")
+    meetup.venueId = UUID.randomUUID().toString
+    meetup.venueLat = 32.963917
+    meetup.venueLon = -96.738754
+    meetup.venueName = "My Heart Reiki"
+
+    //Member
+    meetup.memberId = 194295521
+    meetup.memberName = "Cristin"
+
+    //Event
+    meetup.eventName ="REIKI I PRACTITIONER CERTIFICATION CLASS - ONE DAY INTENSIVE"
+    meetup.eventId = UUID.randomUUID().toString
+    meetup.eventTime = new Timestamp(1445783400000l)
+    meetup.eventUrl = "http://www.meetup.com/Holistic-Energy-Healing-Support/events/225901102/"
+
+    meetup.groupCity = "Leganes"
+    meetup.groupCountry = "Spain"
+    meetup.groupId = 11106032
+    meetup.groupLat = 32.96
+    meetup.groupLon = -96.75
+    meetup.groupName = "SDFasfdasfd"
+    meetup.groupUrlName = "An url"
+    meetup.groupState = "State"
+    val gt = new GroupTopic
+    gt.topic_name = "A topic name1"
+    gt.url_key = "An url key1"
+    meetup.groupTopicList.add(gt.toString)
+
+    gt.topic_name = "A topic name2"
+    gt.url_key = "An url key 2"
+    meetup.groupTopicList.add(gt.toString)
 
     em.persist(meetup)
 

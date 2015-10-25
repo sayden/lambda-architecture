@@ -6,6 +6,7 @@ import javax.persistence.{Column, Entity, Id, Table}
 /**
  * CREATE TABLE users ( id text, name text, surname text, age int, primary key(id) ) WITH COMPACT STORAGE;
  */
+
 @Entity
 @Table (name = "users", schema = "kunderaexamples@cassandra_pu")
 class UserKundera {

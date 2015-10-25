@@ -16,22 +16,12 @@ libraryDependencies += "org.apache.httpcomponents" % "httpmime" % "4.0.3"
 
 libraryDependencies += "com.datastax.cassandra" % "cassandra-driver-core" % "2.2.0-rc3"
 
-val PhantomVersion = "1.12.2"
+libraryDependencies += "com.impetus.kundera.core" % "kundera-core" % "3.1"
 
-resolvers ++= Seq(
-  "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
-  "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
-  "Sonatype repo"                    at "https://oss.sonatype.org/content/groups/scala-tools/",
-  "Sonatype releases"                at "https://oss.sonatype.org/content/repositories/releases",
-  "Sonatype snapshots"               at "https://oss.sonatype.org/content/repositories/snapshots",
-  "Sonatype staging"                 at "http://oss.sonatype.org/content/repositories/staging",
-  "Java.net Maven2 Repository"       at "http://download.java.net/maven/2/",
-  "Twitter Repository"               at "http://maven.twttr.com",
-  Resolver.bintrayRepo("websudos", "oss-releases")
-)
+libraryDependencies += "com.impetus.kundera.core" % "fallback-impl" % "3.1"
 
-libraryDependencies ++= Seq(
-  "com.websudos" %% "phantom-dsl" % PhantomVersion,
-  "com.websudos" %% "phantom-zookeeper" % PhantomVersion,
-  "com.websudos" %% "phantom-testkit" % PhantomVersion % "test, provided"
-)
+libraryDependencies += "org.scalatest" % "scalatest_2.10" % "3.0.0-M10"
+
+libraryDependencies += "com.impetus.kundera.client" % "kundera-cassandra" % "3.1"
+
+libraryDependencies += "com.impetus.kundera.client" % "kundera-cassandra-ds-driver" % "3.1"
