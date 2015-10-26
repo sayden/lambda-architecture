@@ -2,24 +2,16 @@ package consumer
 
 import java.util.Properties
 
+import KafkaConsumer.Constants
 import kafka.consumer._
 import storage.MeetupParser
 
 import scala.collection.Map
 
 
-class MeetupConsumer(zookeeper: String, groupId: String, topic: String) {
-  var kafkaHost: String = "localhost"
-  var kafkaPort: Int = 9080
-
+class MeetupConsumer(topic: String) {
   def createConsumerConfig(): ConsumerConfig = {
-    val props: Properties = new Properties()
-    props.put("zookeeper.connect", zookeeper)
-    props.put("group.id", groupId)
-    props.put("zookeeper.session.timeout.ms", "400")
-    props.put("zookeeper.sync.time.ms", "200")
-    props.put("auto.commit.interval.ms", "1000")
-
+    val props: Properties = Constants.getZookeeperProperties
     new ConsumerConfig(props)
   }
 
@@ -46,7 +38,7 @@ class MeetupConsumer(zookeeper: String, groupId: String, topic: String) {
           val msg = consumerIter.next()
           val msgString = new String(msg.message())
           println("Message from Single Topic :: " + msgString)
-          var meetupParser: MeetupParser = new MeetupParser()
+          val meetup = MeetupParser.parseString(msgString)
 
         }
       }

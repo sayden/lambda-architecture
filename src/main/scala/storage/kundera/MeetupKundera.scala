@@ -4,8 +4,10 @@ import java.sql.Timestamp
 import java.util
 import javax.persistence._
 
+import KafkaConsumer.Constants
+
 @Entity
-@Table(name = "meetup", schema = "kunderaexamples@cassandra_pu")
+@Table(name = Constants.Tables.MEETUP, schema = Constants.SCHEMA_NAME)
 class MeetupKundera {
 
   /* COMMON */

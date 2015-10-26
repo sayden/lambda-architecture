@@ -1,13 +1,14 @@
 package storage
 
 import net.liftweb.json._
-import storage.models.Meetup
+import storage.kundera.MeetupKundera
 
-class MeetupParser {
+object MeetupParser {
   implicit val formats = net.liftweb.json.DefaultFormats
 
-  def parseJson(stringifiedJson: String): Unit ={
+  def parseString(stringifiedJson: String): MeetupKundera ={
     val json = parse(stringifiedJson)
-    val extraction = json.extract[Meetup]
+    val extraction = json.extract[MeetupKundera]
+    extraction
   }
 }

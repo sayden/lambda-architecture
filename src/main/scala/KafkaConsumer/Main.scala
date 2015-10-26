@@ -1,4 +1,4 @@
-package consumer
+package KafkaConsumer
 
 import java.sql.Timestamp
 import java.util
@@ -6,6 +6,7 @@ import java.util.UUID
 import javax.persistence.{EntityManager, EntityManagerFactory, Persistence}
 
 import com.impetus.client.cassandra.common.CassandraConstants
+import consumer.{JsonParserTest, MeetupConsumer, MyJavaKafkaConsumer, ScalaTutorials}
 import storage.kundera.{GroupTopic, MeetupKundera}
 import storage.{CassandraJavaScalaStorage, CassandraJavaStorage}
 
@@ -87,7 +88,7 @@ object Main {
    * The consumer that listens to "meetup" topic in Kafka for messages
    */
   def tryConsumer(): Unit ={
-    val consumer: MeetupConsumer = new MeetupConsumer("localhost:2181", "1", "meetup")
+    val consumer: MeetupConsumer = new MeetupConsumer("meetup")
     consumer.run()
   }
 

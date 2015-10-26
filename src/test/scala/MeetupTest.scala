@@ -62,13 +62,18 @@ class MeetupTest extends FlatSpec with Matchers {
 
       em.persist(meetup)
 
-      /** Now check the insertion */
-
+      //Now check the insertion
       val m: MeetupKundera = em.find(classOf[MeetupKundera], id)
 
       assert(m.groupCity == "Leganes")
 
       em.close
       emf.close
+    }
+
+    behavior of "a json string"
+
+    it should "be converted into a Meetup object" in {
+
     }
   }
