@@ -25,3 +25,5 @@ libraryDependencies += "org.scalatest" % "scalatest_2.10" % "3.0.0-M10"
 libraryDependencies += "com.impetus.kundera.client" % "kundera-cassandra" % "3.1"
 
 libraryDependencies += "com.impetus.kundera.client" % "kundera-cassandra-ds-driver" % "3.1"
+
+libraryDependencies += "com.google.code.gson" % "gson" % "2.4"
