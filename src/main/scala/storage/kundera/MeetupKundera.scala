@@ -3,6 +3,7 @@ package storage.kundera
 import java.sql.Timestamp
 import java.util
 import javax.persistence._
+import scala.collection.JavaConversions._
 
 import KafkaConsumer.Constants
 
@@ -113,9 +114,11 @@ class MeetupKundera {
     group_name = meetup.group.group_name
     group_state = meetup.group.group_state
     group_urlname = meetup.group.group_urlname
-    val groupTopicList: java.util.ArrayList[GroupTopic] = meetup.group.group_topics
-    for(gt: GroupTopic <- groupTopicList){
-      println(gt)
+
+    val groupTopicList = meetup.group.group_topics
+    val iter = groupTopicList.iterator
+    while(iter.hasNext){
+      group_topics.add(iter.next().toString)
     }
   }
 }
