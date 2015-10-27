@@ -5,7 +5,7 @@ import storage.{CassandraJavaScalaStorage, CassandraJavaStorage}
 
 object Main {
   def main(args: Array[String]): Unit = {
-
+    tryConsumer()
   }
 
   def tryCassandraJavaScalaStorage(): Unit ={

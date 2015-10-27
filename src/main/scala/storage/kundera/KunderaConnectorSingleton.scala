@@ -6,7 +6,7 @@ import KafkaConsumer.Constants
 import com.impetus.client.cassandra.common.CassandraConstants
 
 
-class KunderaConnectorSingleton {
+object KunderaConnectorSingleton {
   private var em: EntityManager = null
   private var emf: EntityManagerFactory = null
 

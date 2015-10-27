@@ -6,7 +6,7 @@ import javax.persistence.{EntityManager, EntityManagerFactory, Persistence}
 import com.google.gson.Gson
 import com.impetus.client.cassandra.common.CassandraConstants
 import org.scalatest.{FlatSpec, Matchers}
-import storage.kundera.{Meetup, MeetupKundera, GroupTopic}
+import storage.kundera._
 
 class MeetupTest extends FlatSpec with Matchers {
   val jsonString = """{
@@ -186,11 +186,11 @@ class MeetupTest extends FlatSpec with Matchers {
     meetupKundera.flatten(json)
     meetupKundera.rsvp_id = UUID.randomUUID().toString
 
-    val em: EntityManager = KunderaConnectionSingleton.getEntityManager;
+    val em: EntityManager = KunderaConnectorSingleton.getEntityManager
 
     em.persist(meetupKundera)
 
-    KunderaConnectionSingleton.close
+    KunderaConnectorSingleton.close
   }
 
   }
