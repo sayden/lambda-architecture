@@ -2,16 +2,16 @@ package storage.models
 
 import net.liftweb.json.JsonParser
 
-class Meetup(
+class MeetupPhantom(
               rsvp_id:String,
               visibility:String,
               response:String,
               guests:Int,
               mtime:Long,
-              venue:Venue,
-              member:Member,
-              event:Event,
-              group:Group
+              venue:VenuePhantom,
+              member:MemberPhantom,
+              event:EventPhantom,
+              group:GroupPhantom
               ) extends CassandraColumnFamily {
 
   implicit val formats = net.liftweb.json.DefaultFormats
@@ -51,7 +51,7 @@ class Meetup(
   }
 
   override def fromJson(json: String): CassandraColumnFamily = {
-    JsonParser.parse(json).extract[Meetup]
+    JsonParser.parse(json).extract[MeetupPhantom]
   }
 
   override def toInsertQuery(): String = {
@@ -67,35 +67,35 @@ class Meetup(
       s"${group.group_lat}, ${group.group_urlname}, ${group.group_state})"
   }
 
-  def groupTopicsToString(groupTopics: List[GroupTopic]): String = {
-    "[" + groupTopics.map {topic: GroupTopic =>
+  def groupTopicsToString(groupTopics: List[GroupTopicPhantom]): String = {
+    "[" + groupTopics.map {topic: GroupTopicPhantom =>
       topic.toString
     }.reduceLeft(_ + ", " + _) + "]"
   }
 }
 
 
-case class Venue(name:String, lon:Long, lat:Long, venue_id:Long)
+case class VenuePhantom(name:String, lon:Long, lat:Long, venue_id:Long)
 
-case class Member(member_id:Long, member_name:String)
+case class MemberPhantom(member_id:Long, member_name:String)
 
-case class Event(event_name:String, event_id:String, time:String, event_url:String)
+case class EventPhantom(event_name:String, event_id:String, time:String, event_url:String)
 
-case class GroupTopic(url_key: String, event_url:String){
+case class GroupTopicPhantom(url_key: String, event_url:String){
   override def toString(): String = {
     "{event_url:%s, url_key:%s}".format(event_url, url_key)
   }
 }
 
-case class GroupTopicList(groupTopicList: List[GroupTopic]){
+case class GroupTopicList(groupTopicList: List[GroupTopicPhantom]){
   override def toString(): String = {
-    "[" + groupTopicList.map {topic: GroupTopic =>
+    "[" + groupTopicList.map {topic: GroupTopicPhantom =>
       topic.toString
     }.reduceLeft(_ + ", " + _) + "]"
   }
 }
 
-case class Group(group_city:String, group_country:String, group_id:Long,
+case class GroupPhantom(group_city:String, group_country:String, group_id:Long,
                  group_name:String, group_lon:Long, group_urlname:String,
                  group_state:String,group_lat:Long, group_topics: GroupTopicList)
 

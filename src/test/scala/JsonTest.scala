@@ -1,4 +1,4 @@
-
+import java.util
 
 case class JsonTest(
                      venue: VenueTest,
@@ -8,6 +8,6 @@ case class JsonTest(
                      rsvp_id: String
                      ) {
 }
-case class VenueTest(venue_name: String, lat:Long)
-case class GroupTest(group_topics: List[GroupTopicTest], group_lat:Long)
+case class VenueTest(venue_name: String, lat:Double)
+case class GroupTest(group_topics: util.ArrayList[GroupTopicTest], group_lat:Double)
 case class GroupTopicTest(urlkey: String, topic_name: String)

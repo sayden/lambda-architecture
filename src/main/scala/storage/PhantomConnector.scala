@@ -1,5 +1,5 @@
 package storage
-
+/*
 import com.datastax.driver.core.Session
 import com.websudos.phantom.connectors.{ContactPoints, KeySpace, SimpleConnector}
 import com.websudos.phantom.zookeeper.ZkContactPointLookup
@@ -50,3 +50,5 @@ object RemoteConnector extends KeyspaceDefinition {
 }
 
 trait DockerConnector extends RemoteConnector.connector.Connector
+
+*/

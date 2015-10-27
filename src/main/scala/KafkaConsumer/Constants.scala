@@ -2,13 +2,15 @@ package KafkaConsumer
 
 import java.util.Properties
 
-final object Constants {
-  val PERSISTENCE_UNIT_NAME: String = "cassandra_pu"
-  val KEYSPACE_NAME: String = "kunderaexamples"
-  val SCHEMA_NAME: String = s"$KEYSPACE_NAME@$PERSISTENCE_UNIT_NAME"
+object Constants {
+  final val PERSISTENCE_UNIT_NAME = "cassandra_pu"
+  final val KEYSPACE_NAME = "kunderaexamples"
+//  final val SCHEMA_NAME = s"$KEYSPACE_NAME@$PERSISTENCE_UNIT_NAME"
+//  final val SCHEMA_NAME = "kunderaexamples@cassandra_pu"
+  final val SCHEMA_NAME = KEYSPACE_NAME + "@" + PERSISTENCE_UNIT_NAME
 
   object Tables {
-    val MEETUP: String = "meetup"
+    final val MEETUP = "meetup"
   }
 
   def getZookeeperProperties: Properties = {

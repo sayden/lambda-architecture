@@ -1,4 +1,4 @@
-{
+"""{
     "venue":{
         "venue_name":"My Heart Reiki ",
         "lat":32.963917
@@ -20,4 +20,4 @@
         "group_lat":32.96,
         "group_name":"some name"
     }
-}
+}"""
