@@ -1,21 +1,26 @@
 # README #
 
-A project to integrate a node source through a kafka message broker Producer, consumed by a Kakfa Consumer to store it in a Cassandra nosql and another kafka consumer to spark stream it
+A project to integrate Meetup Streaming API through a Kafka Producer implemented in Nodejs, consumed by a Kakfa Consumer to store every message in a Cassandra NoSQL.
+Cassandra will be configured to use Spark on it.
+A consumer will also be written to use with Spark Streaming.
 
-### How do I get set up? ###
+### Setup ###
 
 * Summary of set up
-	* With the current configuration, a local cassandra server
-	* With the current configuration, a local kafka broker
+	* A local cassandra server
+	* A local kafka broker
 
 * File packages
-	* *consumer* Files of Kafka consumers:
-		*	*JsonParserTest*: Some methods to try a json parser
-		* *Main*: Entrance point to the app
-		* *MeetupConsumer*: A Kafka Consumer for the "meetup" topic
-		* *ScalaTutorials*: A set of tutorials about scala
-	* *storage* Files about Kafka storage:
-		* *CassandraJavaStorage*: A java implementation to insert a record in cassandra
-		* *ExampleConnector*: Minimum acceptable connector for scala phantom driver to access cassandra
-		* *SimpleUser*: An full implementation of cassandra access using scala phantom library. Depends on storage.User class
-		* *User*: User POJO
+	* **scala.consumer** Files of Kafka consumers:
+		* **MeetupConsumer**: A Kafka Consumer for the "meetup" topic
+	* **scala.main**
+		* **Main**: Entrance point to the app
+		* **Constants**: Some constants needed in the app
+	* **scala.storage.kundera** Files about Kafka storage:
+		* **KunderaConnectorSingleton** A Singleton to access an EntityManager to perform the persistence
+		* **Meetup** A POJO to perform Json-to-object transformations but without Kundera knowledge
+		* **MeetupKundera** An object ready to insert into Cassandra using Kundera library
+	* **nodejs**
+		* **meetupKafkaProducer** A producer configured to listen Meetup API and feed the Kafka broker.
+
+It uses Kundera DDL Auto prepare to create any column family or table needed in Cassandra so there is no need of a creation script. 

@@ -1,15 +1,13 @@
 import java.sql.Timestamp
-import java.util
 import java.util.UUID
-import javax.persistence.{EntityManager, EntityManagerFactory, Persistence}
+import javax.persistence.EntityManager
 
 import com.google.gson.Gson
-import com.impetus.client.cassandra.common.CassandraConstants
 import org.scalatest.{FlatSpec, Matchers}
 import storage.kundera._
 
 class MeetupTest extends FlatSpec with Matchers {
-  val jsonString = """{
+  val meetupMsgExampleJson = """{
     "venue":{
         "venue_name":"My Heart Reiki ",
         "lon":-96.738754,
@@ -105,11 +103,8 @@ class MeetupTest extends FlatSpec with Matchers {
 
     behavior of "A Meetup object"
 
-    ignore should "be inserted into cassandra" in {
-      val puProperties: util.HashMap[String, Object] = new util.HashMap[String, Object]()
-      puProperties.put(CassandraConstants.CQL_VERSION, CassandraConstants.CQL_VERSION_3_0)
-      val emf: EntityManagerFactory = Persistence.createEntityManagerFactory("cassandra_pu", puProperties)
-      val em: EntityManager = emf.createEntityManager()
+    it should "be inserted into cassandra" in {
+      val em: EntityManager = KunderaConnectorSingleton.getEntityManager
 
       //Meetup
       val meetup: MeetupKundera = new MeetupKundera
@@ -158,32 +153,35 @@ class MeetupTest extends FlatSpec with Matchers {
 
       assert(m.group_city == "Leganes")
 
-      em.close
-      emf.close
+      KunderaConnectorSingleton.close()
     }
 
   behavior of "a json string"
 
   it should "be converted into a POJO Meetup object" in {
     val gson: Gson = new Gson
-    val json = gson.fromJson(jsonString, classOf[Meetup])
+    val json = gson.fromJson(meetupMsgExampleJson, classOf[Meetup])
     assert(json.group.group_topics.get(0).urlkey == "alternative-health-mind-body-connection")
   }
 
+  behavior of "a meetup POJO"
+
   it should "be converted into a MeetupKundera object" in {
     val gson: Gson = new Gson
-    val json:Meetup = gson.fromJson(jsonString, classOf[Meetup])
+    val json:Meetup = gson.fromJson(meetupMsgExampleJson, classOf[Meetup])
     val meetupKundera: MeetupKundera = new MeetupKundera
-    meetupKundera.flatten(json)
+    meetupKundera.convertPojoToCassandraKundera(json)
 
     assert(meetupKundera.group_topics.get(0).contains("alternative-health-mind-body-connection"))
   }
 
+  behavior of "a Meetup Kundera"
+
   it should "be inserted into cassandra" in {
     val gson: Gson = new Gson
-    val json:Meetup = gson.fromJson(jsonString, classOf[Meetup])
+    val json:Meetup = gson.fromJson(meetupMsgExampleJson, classOf[Meetup])
     val meetupKundera: MeetupKundera = new MeetupKundera
-    meetupKundera.flatten(json)
+    meetupKundera.convertPojoToCassandraKundera(json)
     meetupKundera.rsvp_id = UUID.randomUUID().toString
 
     val em: EntityManager = KunderaConnectorSingleton.getEntityManager

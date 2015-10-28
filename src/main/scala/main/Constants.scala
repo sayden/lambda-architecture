@@ -1,13 +1,12 @@
-package KafkaConsumer
+package main
 
 import java.util.Properties
 
 object Constants {
   final val PERSISTENCE_UNIT_NAME = "cassandra_pu"
   final val KEYSPACE_NAME = "kunderaexamples"
-//  final val SCHEMA_NAME = s"$KEYSPACE_NAME@$PERSISTENCE_UNIT_NAME"
-//  final val SCHEMA_NAME = "kunderaexamples@cassandra_pu"
   final val SCHEMA_NAME = KEYSPACE_NAME + "@" + PERSISTENCE_UNIT_NAME
+  final val LOG = true
 
   object Tables {
     final val MEETUP = "meetup"

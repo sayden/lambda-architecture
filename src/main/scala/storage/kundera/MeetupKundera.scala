@@ -4,7 +4,7 @@ import java.sql.Timestamp
 import java.util
 import javax.persistence._
 
-import KafkaConsumer.Constants
+import main.Constants
 
 @Entity
 @Table(name = Constants.Tables.MEETUP, schema = Constants.SCHEMA_NAME)
@@ -89,7 +89,12 @@ class MeetupKundera {
   @Column(name = "group_topics")
   var group_topics: java.util.List[String] = new util.ArrayList[String]()
 
-  def flatten(meetup: Meetup): Unit = {
+  /**
+   * Takes a Meetup storage.Meetup POJO and converts it (mainly flatten it) into
+   * a more suitable format to store in Cassandra
+   * @param meetup
+   */
+  def convertPojoToCassandraKundera(meetup: Meetup): Unit = {
     if (meetup.rsvp_id != null) rsvp_id = meetup.rsvp_id
     if (meetup.guests != 0) guests = meetup.guests
     if (meetup.visibility != null) visibility = meetup.visibility
