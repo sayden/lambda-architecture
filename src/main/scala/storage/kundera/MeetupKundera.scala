@@ -3,7 +3,6 @@ package storage.kundera
 import java.sql.Timestamp
 import java.util
 import javax.persistence._
-import scala.collection.JavaConversions._
 
 import KafkaConsumer.Constants
 
@@ -91,34 +90,43 @@ class MeetupKundera {
   var group_topics: java.util.List[String] = new util.ArrayList[String]()
 
   def flatten(meetup: Meetup): Unit = {
-    rsvp_id = meetup.rsvp_id
-    guests = meetup.guests
-    visibility = meetup.visibility
-    response = meetup.response
-    mtime = meetup.mtime
-    venue_id = meetup.venue.venue_id
-    venue_lat = meetup.venue.lat
-    venue_lon = meetup.venue.lon
-    venue_name = meetup.venue.name
-    member_id = meetup.member.member_id
-    member_name = meetup.member.member_name
-    event_id = meetup.event.event_id
-    event_name = meetup.event.event_name
-    event_time = new Timestamp(meetup.event.time)
-    event_url = meetup.event.event_url
-    group_city = meetup.group.group_city
-    group_country = meetup.group.group_country
-    group_id = meetup.group.group_id
-    group_lat = meetup.group.group_lat
-    group_lon = meetup.group.group_lon
-    group_name = meetup.group.group_name
-    group_state = meetup.group.group_state
-    group_urlname = meetup.group.group_urlname
+    if (meetup.rsvp_id != null) rsvp_id = meetup.rsvp_id
+    if (meetup.guests != 0) guests = meetup.guests
+    if (meetup.visibility != null) visibility = meetup.visibility
+    if (meetup.response != null) response = meetup.response
+    if (meetup.mtime != 0) mtime = meetup.mtime
+    if(meetup.venue != null){
+      if (meetup.venue.venue_id != null) venue_id = meetup.venue.venue_id
+      if (meetup.venue.lat != 0) venue_lat = meetup.venue.lat
+      if(meetup.venue.name != null) venue_name = meetup.venue.name
+    }
+    if(meetup.member != null){
+      if(meetup.member.member_id != 0) member_id = meetup.member.member_id
+      if(meetup.member.member_name != null) member_name = meetup.member.member_name
+    }
 
-    val groupTopicList = meetup.group.group_topics
-    val iter = groupTopicList.iterator
-    while(iter.hasNext){
-      group_topics.add(iter.next().toString)
+    if(meetup.event != null){
+      if(meetup.event.event_id != null) event_id = meetup.event.event_id
+      if(meetup.event.event_name != null) event_name = meetup.event.event_name
+      if(meetup.event.time != 0) event_time = new Timestamp(meetup.event.time)
+      if(meetup.event.event_url != null) event_url = meetup.event.event_url
+    }
+
+    if(meetup.group != null){
+      if(meetup.group.group_city != null) group_city = meetup.group.group_city
+      if(meetup.group.group_country != null) group_country = meetup.group.group_country
+      if(meetup.group.group_id != 0) group_id = meetup.group.group_id
+      if(meetup.group.group_lat != 0) group_lat = meetup.group.group_lat
+      if(meetup.group.group_lon != 0) group_lon = meetup.group.group_lon
+      if(meetup.group.group_name != null) group_name = meetup.group.group_name
+      if(meetup.group.group_state != null) group_state = meetup.group.group_state
+      if(meetup.group.group_urlname != null) group_urlname = meetup.group.group_urlname
+
+      val groupTopicList = meetup.group.group_topics
+      val iter = groupTopicList.iterator
+      while(iter.hasNext){
+        group_topics.add(iter.next().toString)
+      }
     }
   }
 }
