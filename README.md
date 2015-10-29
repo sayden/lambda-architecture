@@ -22,5 +22,7 @@ A consumer will also be written to use with Spark Streaming.
 		* **MeetupKundera** An object ready to insert into Cassandra using Kundera library
 	* **nodejs**
 		* **meetupKafkaProducer** A producer configured to listen Meetup API and feed the Kafka broker.
+	* **spark**
+		* **SparkOverCassandra**: A simple example querying the data from Cassandra database
 
 It uses Kundera DDL Auto prepare to create any column family or table needed in Cassandra so there is no need of a creation script. 
