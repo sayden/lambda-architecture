@@ -18,8 +18,12 @@ object SparkOverCassandra {
     val count = rdd.count
     val first = rdd.first
     val sum = rdd.map(_.getInt("guests")).sum
+    val es = rdd.filter(_.getString("group_country") == "es")
+      .map(row => row.getString("group_name") )
+      .reduce(_ + "\n" + _)
 
-    val result:String = s"count:$count \nfirst id:${first.getString("rsvp_id")} \nsum:$sum"
+
+    val result:String = s"count:$count \nfirst id:${first.getString("rsvp_id")} \nsum:$sum\n country:$es"
     new PrintWriter("/tmp/results") {
       write(result)
       close()
