@@ -99,7 +99,7 @@ class MeetupTest extends FlatSpec with Matchers {
     }
 }"""
 
-  implicit val formats = net.liftweb.json.DefaultFormats
+//  implicit val formats = net.liftweb.json.DefaultFormats
 
     behavior of "A Meetup object"
 
