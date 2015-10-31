@@ -33,3 +33,7 @@ libraryDependencies += "com.datastax.spark" % "spark-cassandra-connector_2.10" %
 libraryDependencies += "org.apache.spark" % "spark-catalyst_2.10" % "1.5.1"
 
 libraryDependencies += "org.apache.spark" % "spark-core_2.10" % "1.5.1"
+
+libraryDependencies += "org.apache.spark" % "spark-streaming_2.10" % "1.5.1"
+
+libraryDependencies += "org.apache.spark" % "spark-streaming-kafka_2.10" % "1.5.1"

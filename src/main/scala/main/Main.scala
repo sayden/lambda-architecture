@@ -1,10 +1,13 @@
 package main
 
-import consumer.{MeetupConsumer}
+import consumer.MeetupSparkConsumer
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val consumer: MeetupConsumer = new MeetupConsumer("meetup")   //Topic name
-    consumer.run()
+//    val cassandraConsumer: MeetupConsumer = new
+//        MeetupCassandraConsumer("meetup")   //Topic name
+
+    val sparkConsumer: MeetupSparkConsumer = new MeetupSparkConsumer("meetup")
+    sparkConsumer.run
   }
 }

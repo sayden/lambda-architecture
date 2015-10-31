@@ -2,10 +2,10 @@ package consumer
 
 import javax.persistence.EntityManager
 
-import main.Constants
 import com.google.gson.Gson
 import kafka.consumer._
-import storage.kundera.{KunderaConnectorSingleton, Meetup, MeetupKundera}
+import main.Constants
+import storage.kundera.KunderaConnectorSingleton
 
 import scala.collection.Map
 
@@ -13,9 +13,9 @@ import scala.collection.Map
  * A Consumer to insert every message into a Cassandra DB
  * @param topic
  */
-class MeetupConsumer(topic: String) {
-  private var em: EntityManager = null
-  private var gson: Gson = null
+abstract class MeetupConsumer(topic: String) extends OnKafkaMessage{
+  protected var em: EntityManager = null
+  protected var gson: Gson = null
 
   /**
    * Configures a ConsumerConnector
@@ -45,21 +45,6 @@ class MeetupConsumer(topic: String) {
   }
 
   /**
-   * Stores a Meetup string message into a Cassandra Db
-   * @param msg
-   */
-  def saveInCassandra(msg: String): Unit = {
-    if (Constants.LOG) println(msg)
-
-    val meetupPojo: Meetup = gson.fromJson(msg, classOf[Meetup])
-    val meetup: MeetupKundera = new MeetupKundera
-    if(meetupPojo!=null){
-      meetup.convertPojoToCassandraKundera(meetupPojo)
-      em.persist(meetup)
-    }
-  }
-
-  /**
    * Launch the consumer
    * @param optionalStreamList The stream list to listen
    */
@@ -79,7 +64,7 @@ class MeetupConsumer(topic: String) {
           while (consumerIter.hasNext()){
             val msg = consumerIter.next()
             val msgString = new String(msg.message())
-            saveInCassandra(msgString)
+                processMessage(msgString)
           }
 
         }

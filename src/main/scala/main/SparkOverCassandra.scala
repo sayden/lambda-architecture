@@ -1,9 +1,9 @@
-package spark
+package main
 
 import java.io.PrintWriter
 
-import org.apache.spark.{SparkConf, SparkContext}
 import com.datastax.spark.connector._
+import org.apache.spark.{SparkConf, SparkContext}
 
 object SparkOverCassandra {
   def main(args: Array[String]) {
