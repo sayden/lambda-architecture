@@ -1,7 +1,8 @@
 package consumer
 
 import main.Constants
-import storage.kundera.{Meetup, MeetupKundera}
+import storage.Meetup
+import storage.kundera.MeetupKundera
 
 class MeetupCassandraConsumer(topic:String) extends MeetupConsumer(topic) with OnKafkaMessage{
 

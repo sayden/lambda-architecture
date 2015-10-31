@@ -1,4 +1,4 @@
-package storage.kundera
+package storage
 
 class Meetup(
                 var rsvp_id:String,

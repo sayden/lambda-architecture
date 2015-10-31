@@ -5,6 +5,7 @@ import java.util
 import javax.persistence._
 
 import main.Constants
+import storage.Meetup
 
 @Entity
 @Table(name = Constants.Tables.MEETUP, schema = Constants.SCHEMA_NAME)

@@ -4,6 +4,7 @@ import javax.persistence.EntityManager
 
 import com.google.gson.Gson
 import org.scalatest.{FlatSpec, Matchers}
+import storage.{Meetup, GroupTopic}
 import storage.kundera._
 
 class MeetupTest extends FlatSpec with Matchers {

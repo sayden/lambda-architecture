@@ -7,7 +7,6 @@ import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
 
 import main.Constants
-import storage.kundera.Meetup
 import com.google.gson.Gson
 
 
@@ -32,25 +31,9 @@ class MeetupSparkConsumer(topic: String) extends Serializable {
       val kafkaParams: Map[String, String] = Map("metadata.broker.list" -> "localhost:9092", "group.id" -> "1")
       val rawDstream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topicsSet)
 
-//      val jsonString: String = rawDstream.map(_._2).toString
       rawDstream.map(_._2).foreachRDD {rdd:RDD[String] =>
-        rdd.foreach(CountryCounters.meetupHandler)
+        rdd.foreach(CountryCounters.addResultToCountryAndPrints)
       }
-
-
-        /*
-        val meetupPojo: Meetup = gson.fromJson(rdd, classOf[Meetup])
-        println(jsonString)
-        val country: String = meetupPojo.group.group_country
-
-        if(countryCounters.get(country) != None){
-          countryCounters(country) += 1
-          println(countryCounters)
-        } else {
-          countryCounters += (country -> 1)
-          println(countryCounters)
-        }
-        */
 
       ssc.start()
       ssc.awaitTermination()
