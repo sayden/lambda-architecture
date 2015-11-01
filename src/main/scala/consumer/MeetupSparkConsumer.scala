@@ -28,7 +28,7 @@ class MeetupSparkConsumer(topic: String) extends Serializable {
       ssc = new StreamingContext(conf, Seconds(10))
 
       val topicsSet: Set[String] = Set("meetup")
-      val kafkaParams: Map[String, String] = Map("metadata.broker.list" -> "localhost:9092", "group.id" -> "1")
+      val kafkaParams: Map[String, String] = Map("metadata.broker.list" -> "localhost:9092", "group.id" -> "2")
       val rawDstream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topicsSet)
 
       rawDstream.map(_._2).foreachRDD {rdd:RDD[String] =>
