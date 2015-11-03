@@ -4,7 +4,7 @@ import consumer.{MeetupCassandraConsumer, MeetupSparkConsumer}
 
 object Main {
   def main(args: Array[String]): Unit = {
-    
+
     val sparkConsumer = new Thread(new Runnable {
       override def run(): Unit = {
         val sparkConsumer: MeetupSparkConsumer = new MeetupSparkConsumer("meetup")

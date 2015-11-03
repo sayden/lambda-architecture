@@ -32,7 +32,7 @@ class MeetupSparkConsumer(topic: String) extends Serializable {
       val rawDstream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topicsSet)
 
       rawDstream.map(_._2).foreachRDD {rdd:RDD[String] =>
-        rdd.foreach(CountryCounters.addResultToCountryAndPrints)
+        rdd.foreach(CountryCounters.processResult)
       }
 
       ssc.start()

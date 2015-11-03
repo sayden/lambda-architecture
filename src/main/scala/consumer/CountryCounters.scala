@@ -1,17 +1,19 @@
 package consumer
 
 import com.google.gson.Gson
+import com.redis.RedisClient
 import storage.Meetup
 
 object CountryCounters {
   private var countryCounters = collection.mutable.Map[String, Int]()
   private val gson: Gson = new Gson
+  private val redis: RedisClient = new RedisClient("localhost", 6379)
 
   /**
    * Adds the new message to the country map
    * @param actual
    */
-  def addResultToCountryAndPrints(actual: String) {
+  def processResult(actual: String) {
     val meetup: Meetup = gson.fromJson(actual, classOf[Meetup])
     val country: String = meetup.group.group_country
 
@@ -21,6 +23,11 @@ object CountryCounters {
     }
     
     printer(country, countryCounters(country))
+    persistInRedis(country)
+  }
+
+  def persistInRedis(country: String) {
+    redis.incr(country)
   }
 
   /**

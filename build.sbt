@@ -1,3 +1,5 @@
+import sbt.Keys._
+
 name := "scalaKafkaConsumer"
 
 version := "1.0"
@@ -37,3 +39,5 @@ libraryDependencies += "org.apache.spark" % "spark-core_2.10" % "1.5.1"
 libraryDependencies += "org.apache.spark" % "spark-streaming_2.10" % "1.5.1"
 
 libraryDependencies += "org.apache.spark" % "spark-streaming-kafka_2.10" % "1.5.1"
+
+libraryDependencies += "net.debasishg" % "redisclient" % "3.0"
